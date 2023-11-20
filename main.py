@@ -1,9 +1,9 @@
 import discord
 from discord.ext import commands
-import time
 from dotenv import load_dotenv
 import os
 from gtts import gTTS
+import asyncio
 
 load_dotenv()
 
@@ -59,7 +59,7 @@ async def on_voice_state_update(member, before, after):
         src = discord.FFmpegPCMAudio(executable=ffmpeg_executable_path, source=mp3_file_path)
         vc.play(src)
         while vc.is_playing():
-            time.sleep(1)
+            await asyncio.sleep(1)
         await vc.disconnect()
     elif (left_channel and len(before.channel.members) > 0):
         # Create leaving message
@@ -71,11 +71,11 @@ async def on_voice_state_update(member, before, after):
         # Join channel and play the message
         vc = await before.channel.connect()
         ffmpeg_executable_path = os.environ.get("FFMPEG_PATH")
-        mp3_file_path = f"{os.environ.get('PROJECT_PATH')}/outros/{member.id}.mp3"
+        mp3_file_path = f"./outros/{member.id}.mp3"
         src = discord.FFmpegPCMAudio(executable=ffmpeg_executable_path, source=mp3_file_path)
         vc.play(src)
         while vc.is_playing():
-            time.sleep(1)
+            await asyncio.sleep()
         await vc.disconnect()
 
 
