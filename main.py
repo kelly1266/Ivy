@@ -75,7 +75,7 @@ async def on_voice_state_update(member, before, after):
         src = discord.FFmpegPCMAudio(executable=ffmpeg_executable_path, source=mp3_file_path)
         vc.play(src)
         while vc.is_playing():
-            await asyncio.sleep()
+            await asyncio.sleep(1)
         await vc.disconnect()
 
 
